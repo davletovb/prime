@@ -9,7 +9,7 @@ To install these requirements, first run this:
 
 pip install -r requirements.txt
 
-After installing everything successfully with no errors or warnings raised (which means success!)
+After installing everything successfully with no errors or warnings raised, it will download models from huggingface for the first run. Consecutive model queries should work faster from the local cache.
 
 # Data
-"Data" directory has example posts and comments taken directly off Reddit plus reviews compiled by Wirecutter blog.
+"Data" directory has example posts and comments taken directly off Reddit plus reviews scraped from Wirecutter blog.
