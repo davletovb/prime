@@ -11,5 +11,7 @@ pip install -r requirements.txt
 
 After installing everything successfully with no errors or warnings raised, it will download models from huggingface for the first run. Consecutive model queries should work faster from the local cache.
 
+Docker is included in the requirements.txt, but its not neccessary for the app to work. It is just a convenient way for running Elasticsearch intance. If there is a docker the app can launch Elasticsearch. Otherwise you can just run Elasticsearch separately and change the "host:port" parameters for it.
+
 # Data
 "Data" directory has example posts and comments taken directly off Reddit plus reviews scraped from Wirecutter blog.
