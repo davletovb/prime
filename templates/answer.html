@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Question Form -->
+<form action="{{ url_for('answer') }}" method="POST">
+    <h2>Question Form</h2>
+    <label for="question">Enter your question:</label><br>
+    <input type="text" id="question" name="question" value="{{ question }}" size="67"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>Answer: {{ answer }}</h2>
+
+{% endblock %}

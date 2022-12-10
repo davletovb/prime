@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>CSV File</h2>
+<p>CSV File: <a href="{{ txt_file }}">{{ txt_file }}</a></p>
+<!-- Show cleaned text -->
+<h2>Cleaned Text</h2>
+<p>Posts:</p>
+<p>{{ cleaned_text }}</p>
+
+{% endblock %}

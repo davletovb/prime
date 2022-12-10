@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Show reddit posts csv -->
+<h1>Reddit Posts</h1>
+<p>Subreddit: {{ subreddit }}</p>
+<p>Number of Posts: {{ limit }}</p>
+<p>CSV File: <a href="/data/reddit_{{ subreddit }}.csv">reddit_{{ subreddit }}.csv</a></p>
+<p>
+<form action="/clean" method="post">
+    <input type="submit" value="Clean">
+</form>
+<form action="/" method="post">
+    <input type="submit" value="Back">
+</form>
+</p>
+<p>Posts:</p>
+{{ reddit_posts }}
+
+{% endblock %}

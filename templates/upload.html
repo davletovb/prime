@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Show reddit posts csv -->
+<h2>Reddit Posts</h2>
+<p>Subreddit: {{ subreddit }}</p>
+<p>Number of Posts: {{ num_posts }}</p>
+<p>CSV File: <a href="{{ csv_file }}">{{ csv_file }}</a></p>
+<p>
+<form action="{{ url_for('clean') }}" method="POST">
+    <input type="submit" value="Clean">
+</form>
+<form action="{{ url_for('index') }}" method="POST">
+    <input type="submit" value="Back">
+</form>
+</p>
+<p> Posts: </p>
+<p>{{ posts }}</p>
+
+
+{% endblock %}

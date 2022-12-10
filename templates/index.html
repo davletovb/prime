@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Question Form -->
+<form action="{{ url_for('answer') }}" method="POST">
+    <h2>Question Form</h2>
+    <label for="question">Enter your question:</label><br>
+    <input type="text" id="question" name="question" size="67"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<!-- Reddit Form -->
+<form action="{{ url_for('reddit') }}" method="POST">
+    <h2>Reddit Form</h2>
+    <label for="subreddit">Enter the subreddit:</label><br>
+    <input type="text" id="subreddit" name="subreddit" size="67"><br>
+    <label for="limit">Enter the number of posts:</label><br>
+    <input type="text" id="limit" name="limit"><br>
+    <input type="submit" value="Download">
+</form>
+
+<!-- Upload Form -->
+<form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <h2>Upload Form</h2>
+    <label for="file">Select a file to upload:</label><br>
+    <input type="file" id="file" name="file"><br>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
