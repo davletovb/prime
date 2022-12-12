@@ -3,9 +3,10 @@ from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, request, session
 from query import QAPipeline
 from posts import RedditScraper
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 bootstrap = Bootstrap(app)
 
 
