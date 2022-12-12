@@ -12,6 +12,21 @@ Prime is a question answering system for products that uses natural language pro
 
 ## Usage
 
+* Clone Repo:
+```
+git clone https://github.com/davletovb/prime.git
+```
+
+* Setup a virtual environment: 
+```
+virtualenv .virtualenv/prime
+```
+
+* Activate virtual environment:
+```
+source .virtualenv/prime
+```
+
 * To install these requirements, first run this:
 ```
 pip install -r requirements.txt
