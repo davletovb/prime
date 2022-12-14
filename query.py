@@ -13,7 +13,7 @@ import glob
 import os
 
 
-pinecone_api_key = os.environ.get("PINECONE_API_KEY")
+# pinecone_api_key = os.environ.get("PINECONE_API_KEY")
 
 
 class QAPipeline:
@@ -21,7 +21,7 @@ class QAPipeline:
     A class that defines a question-answering (QA) pipeline using the Haystack library.
     """
 
-    def __init__(self, retriever=BM25Retriever, generator=Seq2SeqGenerator, pipeline=GenerativeQAPipeline, document_store=PineconeDocumentStore, model_name="vblagoje/bart_lfqa"):
+    def __init__(self, retriever=BM25Retriever, generator=Seq2SeqGenerator, pipeline=GenerativeQAPipeline, document_store=ElasticsearchDocumentStore, model_name="vblagoje/bart_lfqa"):
         """
         Initializes the QA pipeline by creating and configuring its components.
         """
@@ -35,8 +35,8 @@ class QAPipeline:
                 print("Elasticsearch already running")
 
         # Create the document store
-        self.document_store = document_store(api_key=pinecone_api_key,
-                                             index="prime", similarity="cosine", embedding_dim=1024)
+        # self.document_store = document_store(api_key=pinecone_api_key,
+        #                                     index="prime", similarity="cosine", embedding_dim=1024)
 
         self.documents_path = "data/documents"
 
@@ -111,8 +111,8 @@ class QAPipeline:
                 split_by="word", split_length=300, split_respect_sentence_boundary=True)
             docs = processor.process(docs)
 
-            # add documents to document store and in batches of 256
-            self.document_store.write_documents(docs, batch_size=256)
+            # add documents to document store
+            self.document_store.write_documents(docs)
 
-            # update embeddings of documents in document store in batches of 256
+            # update embeddings of documents in document store, used with DPR method
             # self.document_store.update_embeddings(self.retriever)
