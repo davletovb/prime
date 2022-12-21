@@ -35,7 +35,7 @@ pip install -r requirements.txt
 * Set environment variables:
 
 ```
-export SECRET_KEY="SECRET_KEY"
+export SECRET_KEY="some secret key necessary for Flask app"
 export REDDIT_CLIENT_ID="REDDIT_CLIENT_ID"
 export REDDIT_CLIENT_SECRET="REDDIT_CLIENT_SECRET"
 ```
