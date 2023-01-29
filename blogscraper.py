@@ -9,6 +9,9 @@ from bs4 import BeautifulSoup
 import pathlib
 import time
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
 
 class BlogPostScraper:
 
@@ -43,7 +46,8 @@ class BlogPostScraper:
         while True:
             # click the load more button
             try:
-                print('Loading more posts... And clicking the button...')
+                logging.info(
+                    'Loading more posts... And clicking the button...')
                 button = browser.find_element(
                     By.XPATH, '//button[.="Show more..."]')
                 button.location_once_scrolled_into_view
@@ -55,19 +59,19 @@ class BlogPostScraper:
                     else:
                         continue
 
-                print('Number of posts: ' + str(len(self.links)))
+                logging.info('Number of posts: ' + str(len(self.links)))
                 # save the links to a file
                 with open(self.links_file, 'w') as f:
                     for link in self.links:
                         f.write(link + '\n')
 
                 button.click()
-                print('Show More button clicked')
+                logging.info('Show More button clicked')
                 time.sleep(5)
                 html = browser.page_source
                 soup = BeautifulSoup(html, 'html.parser')
             except:
-                print('No more Show More button')
+                logging.info('No more Show More button')
                 # if there are no more posts to load, break out of the while loop and continue with the rest of the program
                 break
 
@@ -76,7 +80,7 @@ class BlogPostScraper:
 
     # loop through the links and save each post as a text file
     def save_posts(self, links):
-        print('Saving posts...')
+        logging.info('Saving posts...')
         # use selenium to get the html
         browser_options = Options()
         browser_options.add_argument("--window-size=1920x1080")
@@ -94,8 +98,8 @@ class BlogPostScraper:
                 html = browser.page_source
                 soup = BeautifulSoup(html, 'html.parser')
                 # show a progress bar to show that the program is running and to give an estimate of how long it will take to finish
-                print('Scraping post ' + str(links.index(link) + 1) +
-                      ' of ' + str(len(links)))
+                logging.info('Scraping post ' + str(links.index(link) + 1) +
+                             ' of ' + str(len(links)))
                 # get the post text
                 post_text = soup.find('article').get_text(
                     strip=True, separator=' ')
@@ -108,22 +112,22 @@ class BlogPostScraper:
                 with open('posts/' + link.split('/')[-2] + '.txt', 'w') as f:
                     f.write(post_text)
 
-                print('Post saved as ' + link.split('/')[-2] + '.txt')
+                logging.info('Post saved as ' + link.split('/')[-2] + '.txt')
         else:
-            print('No posts to save')
+            logging.info('No posts to save')
 
         # close the browser
         browser.quit()
 
     def run(self):
 
-        print('Getting the list of posts...')
+        logging.info('Getting the list of posts...')
 
         self.get_posts()
 
-        print('Done getting the list of posts')
+        logging.info('Done getting the list of posts')
 
-        print('Scraping posts...')
+        logging.info('Scraping posts...')
 
         # read the links from the links file if it exists
         if self.links_file.exists():
@@ -132,7 +136,7 @@ class BlogPostScraper:
 
         self.save_posts(links)
 
-        print('Done scraping posts')
+        logging.info('Done scraping posts')
 
 
 if __name__ == '__main__':

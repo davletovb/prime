@@ -4,6 +4,9 @@ import datetime as dt
 import os
 import re
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
 reddit_client_id = os.environ['REDDIT_CLIENT_ID']
 reddit_client_secret = os.environ['REDDIT_CLIENT_SECRET']
 reddit_user_agent = 'REDDIT_USER_AGENT'
@@ -26,21 +29,25 @@ class RedditScraper:
         Downloads and saves the specified number of posts and comments from the subreddit.
         """
         subreddit = self.reddit.subreddit(subreddit)
-        print("Getting {} number of posts from /r/{}".format(limit, subreddit))
+        logging.info(
+            "Getting {} number of posts from /r/{}".format(limit, subreddit))
         # get posts and comments
         posts = []
         for post in subreddit.hot(limit=limit):
             posts.append([post.title, post.selftext, post.created,
                          post.score, post.subreddit, post.id, post.num_comments])
+            # get top rated comments
             post.comments.replace_more(limit=0)
             for comment in post.comments:
                 try:
                     comment.num_comments = len(comment.replies)
                 except:
                     comment.num_comments = 0
+                    posts.append([post.title, comment.body, comment.created,
+                                  comment.score, comment.subreddit, comment.id, comment.num_comments])
 
-                posts.append([post.title, comment.body, comment.created,
-                             comment.score, comment.subreddit, comment.id, comment.num_comments])
+        logging.info(
+            "Got {} number of posts from /r/{}".format(len(posts), subreddit))
 
         # create dataframe
         posts = pd.DataFrame(
@@ -56,6 +63,8 @@ class RedditScraper:
         posts.to_csv('data/reddit_'+str(posts['subreddit']
                      [0])+'.csv', index=False, escapechar='\\')
 
+        logging.info("Saved posts to csv file.")
+
         return posts
 
     def clean_posts(self, filename):
@@ -63,6 +72,9 @@ class RedditScraper:
         Cleans the posts and saves them as a text file.
         """
         # get the file and read it into a dataframe
+
+        logging.info("Cleaning posts from csv file.")
+
         df = pd.read_csv(filename)
         subreddit = df['subreddit'][0]
 
@@ -78,6 +90,8 @@ class RedditScraper:
         # save as a text file, no structure
         df.to_csv('data/documents/reddit_'+str(subreddit) +
                   '.txt', index=False, header=False)
+
+        logging.info("Saved cleaned posts to text file.")
 
         with open('data/documents/reddit_'+str(subreddit)+'.txt', 'r') as f:
             lines = f.readlines()
